@@ -3,12 +3,13 @@ import { email, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback, useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
 
-import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
-import { Input } from './ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -16,24 +17,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
+} from '@/components/ui/form';
 
 import { InputPassword } from './InputPassword';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
-import { loginBanner } from '@/assets';
+import { signupBanner } from '@/assets';
 import { LoaderCircleIcon } from 'lucide-react';
 
 import type {
   ActionResponse,
   AuthResponse,
+  ErrorResponse,
   ValidationError,
 } from '../types/index';
-type LoginFieldName = 'email' | 'password';
+type SignupField = 'email' | 'password' | 'role';
 
-const LOGIN_FORM = {
+const SIGNUP_FORM = {
   title: 'Welcome back',
-  description: 'Login to your ThinkoutBlog account',
-  footerText: "Don't have an account?",
+  description: 'Create your personal ThinkoutBlog account',
+  footerText: 'Have account already?',
 } as const;
 
 const formSchema = z.object({
@@ -46,15 +50,16 @@ const formSchema = z.object({
     .string()
     .nonempty('Password is required')
     .min(8, 'Password must be at least 8 characters long'),
+  role: z.enum(['user', 'admin']),
 });
 
-export const LoginForm = ({
+export const SignupForm = ({
   className,
   ...props
 }: React.ComponentProps<'div'>) => {
   const navigate = useNavigate();
   const fetcher = useFetcher();
-  const loginResponse = fetcher.data as ActionResponse<AuthResponse>;
+  const signupResponse = fetcher.data as ActionResponse<AuthResponse>;
 
   const isLoading = fetcher.state !== 'idle';
 
@@ -63,29 +68,38 @@ export const LoginForm = ({
     defaultValues: {
       email: '',
       password: '',
+      role: 'user',
     },
   });
 
   //Handle server error response
   useEffect(() => {
-    if (!loginResponse) return;
+    if (!signupResponse) return;
 
-    if (loginResponse.ok) {
+    if (signupResponse.ok) {
       navigate('/', { viewTransition: true });
       return;
     }
 
-    if (!loginResponse.err) return;
+    if (!signupResponse.err) return;
 
-    if (loginResponse.err.code == 'ValidationError') {
-      const validationErrors = loginResponse.err as ValidationError;
+    if (signupResponse.err.code == 'AuthorizationError') {
+      const authorizationError = signupResponse.err as ErrorResponse;
+
+      toast.error(authorizationError.message, {
+        position: 'top-center',
+      });
+    }
+
+    if (signupResponse.err.code == 'ValidationError') {
+      const validationErrors = signupResponse.err as ValidationError;
 
       Object.entries(validationErrors.errors).forEach((value) => {
         const [, validationError] = value;
-        const loginField = validationError.path as LoginFieldName;
+        const signupField = validationError.path as SignupField;
 
         form.setError(
-          loginField,
+          signupField,
           {
             type: 'custom',
             message: validationError.msg,
@@ -94,12 +108,12 @@ export const LoginForm = ({
         );
       });
     }
-  }, [loginResponse]);
+  }, [signupResponse]);
 
   //Handle form submission
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
     await fetcher.submit(values, {
-      action: '/login',
+      action: '/signup',
       method: 'post',
       encType: 'application/json',
     });
@@ -119,11 +133,47 @@ export const LoginForm = ({
             >
               <div className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center text-center'>
-                  <h1 className='text-2xl font-semibold'>{LOGIN_FORM.title}</h1>
+                  <h1 className='text-2xl font-semibold'>
+                    {SIGNUP_FORM.title}
+                  </h1>
 
-                  <p className='text-muted-foreground text-balance'>
-                    {LOGIN_FORM.description}
+                  <p className='text-muted-foreground px-6'>
+                    {SIGNUP_FORM.description}
                   </p>
+
+                  <FormField
+                    control={form.control}
+                    name='role'
+                    render={({ field }) => (
+                      <FormItem className='grid gap-3'>
+                        <FormLabel>Register as</FormLabel>
+
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className='grid grid-cols-2 gap-0 border border-input rounded-md p-0.5'
+                          >
+                            <Label className='h-[34px] w-full grid place-items-center rounded-s-sm text-muted-foreground hover:text-foreground has-checked:bg-secondary has-checked:text-secondary-foreground'>
+                              <RadioGroupItem
+                                value='user'
+                                className='sr-only'
+                              />
+                              User
+                            </Label>
+
+                            <Label className='h-[34px] w-full grid place-items-center rounded-s-sm text-muted-foreground hover:text-foreground has-checked:bg-secondary has-checked:text-secondary-foreground'>
+                              <RadioGroupItem
+                                value='admin'
+                                className='sr-only'
+                              />
+                              Admin
+                            </Label>
+                          </RadioGroup>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
                 </div>
                 <FormField
                   control={form.control}
@@ -169,18 +219,18 @@ export const LoginForm = ({
                   disabled={isLoading}
                 >
                   {isLoading && <LoaderCircleIcon className='animate-spin' />}
-                  <span>Login</span>
+                  <span>Signup</span>
                 </Button>
               </div>
 
               <div className='mt-4 text-center text-sm'>
-                {LOGIN_FORM.footerText}{' '}
+                {SIGNUP_FORM.footerText}{' '}
                 <Link
-                  to='/signup'
+                  to='/login'
                   className='underline underline-offset-4 hover:text-primary'
                   viewTransition
                 >
-                  Sign up
+                  Login
                 </Link>
               </div>
             </form>
@@ -188,7 +238,7 @@ export const LoginForm = ({
 
           <figure className='bg-muted relative hidden md:block'>
             <img
-              src={loginBanner}
+              src={signupBanner}
               width={400}
               height={400}
               alt='Login banner'

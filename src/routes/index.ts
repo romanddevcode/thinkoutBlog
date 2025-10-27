@@ -1,41 +1,53 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from 'react-router';
 
-import { Login } from "@/pages/auth/Login";
+import { Login } from '@/pages/auth/Login';
+import { Signup } from '@/pages/auth/Signup';
+
+import signupAction from '@/routes/actions/auth/signup';
+import loginAction from '@/routes/actions/auth/login';
+import refreshTokenLoader from '@/routes/loader/refreshToken';
+
+import { RootLayout } from '@/components/layouts/Root';
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: '/login',
     Component: Login,
+    action: loginAction,
   },
   {
-    path: "/signup",
+    path: '/signup',
+    Component: Signup,
+    action: signupAction,
   },
-  { path: "/refresh-token" },
+  { path: '/refresh-token', loader: refreshTokenLoader },
+
   {
-    path: "/",
+    path: '/',
+    Component: RootLayout,
     children: [
       { index: true },
       {
-        path: "blogs",
+        path: 'blogs',
       },
       {
-        path: "blogs/:slug",
+        path: 'blogs/:slug',
       },
     ],
   },
   {
-    path: "/admin",
+    path: '/admin',
     children: [
-      { path: "dashboard" },
-      { path: "blogs" },
-      { path: "blogs/create" },
-      { path: "blogs/:slug/edit" },
-      { path: "comments" },
-      { path: "users" },
+      { path: 'dashboard' },
+      { path: 'blogs' },
+      { path: 'blogs/create' },
+      { path: 'blogs/:slug/edit' },
+      { path: 'comments' },
+      { path: 'users' },
     ],
   },
   {
-    path: "/settings",
+    path: '/settings',
   },
 ]);
 
