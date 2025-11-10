@@ -1,3 +1,6 @@
+/**
+ * Node modules
+ */
 import { Link, useFetcher, useNavigate } from 'react-router';
 import { email, z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -6,9 +9,12 @@ import { useCallback, useEffect } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
-import { Input } from './ui/input';
+/**
+ * UI components
+ */
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -16,19 +22,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
+} from '@/components/ui/form';
 
 import { InputPassword } from './InputPassword';
 
+/**
+ * Assets
+ */
 import { loginBanner } from '@/assets';
 import { LoaderCircleIcon } from 'lucide-react';
 
+/**
+ * Types
+ */
 import type {
   ActionResponse,
   AuthResponse,
   ValidationError,
 } from '../types/index';
 type LoginFieldName = 'email' | 'password';
+
+/**
+ * Main code
+ */
 
 const LOGIN_FORM = {
   title: 'Welcome back',
@@ -66,7 +82,10 @@ export const LoginForm = ({
     },
   });
 
-  //Handle server error response
+  /**
+   * Handle server error response
+   */
+
   useEffect(() => {
     if (!loginResponse) return;
 
@@ -96,7 +115,10 @@ export const LoginForm = ({
     }
   }, [loginResponse]);
 
-  //Handle form submission
+  /**
+   * Handle form submission
+   */
+
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
     await fetcher.submit(values, {
       action: '/login',

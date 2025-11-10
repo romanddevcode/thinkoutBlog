@@ -1,3 +1,6 @@
+/**
+ * Node modules
+ */
 import { Link, useFetcher, useNavigate } from 'react-router';
 import { email, z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -7,6 +10,9 @@ import { toast } from 'sonner';
 
 import { cn } from '@/lib/utils';
 
+/**
+ * UI components
+ */
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -23,9 +29,15 @@ import { InputPassword } from './InputPassword';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 
+/**
+ * Assets
+ */
 import { signupBanner } from '@/assets';
 import { LoaderCircleIcon } from 'lucide-react';
 
+/**
+ * Types
+ */
 import type {
   ActionResponse,
   AuthResponse,
@@ -33,6 +45,10 @@ import type {
   ValidationError,
 } from '../types/index';
 type SignupField = 'email' | 'password' | 'role';
+
+/**
+ * Main code
+ */
 
 const SIGNUP_FORM = {
   title: 'Welcome back',
@@ -72,7 +88,10 @@ export const SignupForm = ({
     },
   });
 
-  //Handle server error response
+  /**
+   * Handle server error response
+   */
+
   useEffect(() => {
     if (!signupResponse) return;
 
@@ -110,7 +129,10 @@ export const SignupForm = ({
     }
   }, [signupResponse]);
 
-  //Handle form submission
+  /**
+   * Handle form submission
+   */
+
   const onSubmit = useCallback(async (values: z.infer<typeof formSchema>) => {
     await fetcher.submit(values, {
       action: '/signup',

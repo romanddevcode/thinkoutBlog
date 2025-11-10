@@ -1,13 +1,29 @@
-import { useState } from "react";
+/**
+ * Node modules
+ */
+import { useState } from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-import { Input } from "./ui/input";
-import { Toggle } from "./ui/toggle";
+/**
+ * UI components
+ */
+import { Input } from './ui/input';
+import { Toggle } from './ui/toggle';
 
-import { EyeClosedIcon, EyeIcon } from "lucide-react";
+/**
+ * Assets
+ */
+import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 
-type InputPasswordProps = Omit<React.ComponentProps<"input">, "type">;
+/**
+ * Types
+ */
+type InputPasswordProps = Omit<React.ComponentProps<'input'>, 'type'>;
+
+/**
+ * Main code
+ */
 
 export const InputPassword: React.FC<InputPasswordProps> = ({
   className,
@@ -16,22 +32,22 @@ export const InputPassword: React.FC<InputPasswordProps> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative">
+    <div className='relative'>
       <Input
-        type={showPassword ? "text" : "password"}
+        type={showPassword ? 'text' : 'password'}
         className={cn(
-          "pe-12 placeholder:tracking-normal",
-          !showPassword && "tracking-widest",
+          'pe-12 placeholder:tracking-normal',
+          !showPassword && 'tracking-widest',
           className
         )}
         {...props}
       />
 
       <Toggle
-        type="button"
+        type='button'
         pressed={showPassword}
         onPressedChange={setShowPassword}
-        className="absolute top-1/2 -translate-y-1/2 right-0.5 size-8"
+        className='absolute top-1/2 -translate-y-1/2 right-0.5 size-8'
       >
         {showPassword ? <EyeClosedIcon /> : <EyeIcon />}
       </Toggle>
