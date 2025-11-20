@@ -15,6 +15,10 @@ export const RootLayout = () => {
       <Loading className='z-40' />
 
       <Header />
+
+      <main className='frow flex flex-col'>
+        <Outlet />
+      </main>
     </div>
   );
 };

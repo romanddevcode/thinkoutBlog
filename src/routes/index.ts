@@ -5,6 +5,8 @@ import { Signup } from '@/pages/auth/Signup';
 
 import signupAction from '@/routes/actions/auth/signup';
 import loginAction from '@/routes/actions/auth/login';
+import settingsAction from '@/routes/actions/user/settings';
+
 import refreshTokenLoader from '@/routes/loader/refreshToken';
 
 import { RootLayout } from '@/components/layouts/Root';
@@ -48,6 +50,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/settings',
+    action: settingsAction,
   },
 ]);
 
