@@ -2,14 +2,15 @@ import { createBrowserRouter } from 'react-router';
 
 import { Login } from '@/pages/auth/Login';
 import { Signup } from '@/pages/auth/Signup';
+import { RootLayout } from '@/components/layouts/Root';
+import { Home } from '@/pages/user/Home';
 
 import signupAction from '@/routes/actions/auth/signup';
 import loginAction from '@/routes/actions/auth/login';
 import settingsAction from '@/routes/actions/user/settings';
 
-import refreshTokenLoader from '@/routes/loader/refreshToken';
-
-import { RootLayout } from '@/components/layouts/Root';
+import refreshTokenLoader from '@/routes/loaders/refreshToken';
+import homeLoader from '@/routes/loaders/home/homeLoader';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
     path: '/',
     Component: RootLayout,
     children: [
-      { index: true },
+      { index: true, Component: Home, loader: homeLoader },
       {
         path: 'blogs',
       },
