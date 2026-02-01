@@ -2,7 +2,7 @@
  * Node modules
  */
 import { motion } from 'motion/react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 /**
  * Components

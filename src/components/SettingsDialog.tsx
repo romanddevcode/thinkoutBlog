@@ -2,7 +2,7 @@
  * Node modules
  */
 import { useCallback, useEffect } from 'react';
-import { useFetcher } from 'react-router';
+import { useFetcher } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -111,7 +111,7 @@ const ProfileSettingsForm = () => {
         encType: 'application/json',
       });
     },
-    []
+    [],
   );
 
   return (
@@ -132,7 +132,7 @@ const ProfileSettingsForm = () => {
             className={cn(
               'text-sm leading-none font-medium',
               form.formState.errors.firstName ||
-                (form.formState.errors.lastName && 'text-destructive')
+                (form.formState.errors.lastName && 'text-destructive'),
             )}
           >
             Name
@@ -274,7 +274,7 @@ const passwordFormSchema = z
     password: z.string().min(8, 'Password must be at least 9 characters long'),
     confirm_password: z.string(),
   })
-  .refine((data) => data.password == data.confirm_password, {
+  .refine((data) => data.password === data.confirm_password, {
     message: "Passwords doesn't match",
     path: ['confirm_password'],
   });
@@ -308,7 +308,7 @@ const PasswordSettingsForm = () => {
         encType: 'application/json',
       });
     },
-    []
+    [],
   );
 
   return (

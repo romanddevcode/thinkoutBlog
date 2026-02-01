@@ -15,25 +15,16 @@ import type { LoaderFunction } from 'react-router';
 import type { Blog, PaginatedResponse } from '@/types';
 import { AxiosError } from 'axios';
 
-export interface HomeLoaderResponse {
-  recentBlog: PaginatedResponse<Blog, 'blogs'>;
-  alLBlog: PaginatedResponse<Blog, 'blogs'>;
-}
+const userBlogLoader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
 
-const homeLoader: LoaderFunction = async () => {
   try {
-    const { data: recentBlog } = await thinkoutblogApi.get('/blogs', {
-      params: { limit: 4 },
+    const response = await thinkoutblogApi.get('/blogs', {
+      params: Object.fromEntries(url.searchParams),
     });
+    const data = response.data as PaginatedResponse<Blog, 'blogs'>;
 
-    const { data: allBlog } = await thinkoutblogApi.get('/blogs', {
-      params: {
-        offset: 4,
-        limit: 12,
-      },
-    });
-
-    return { recentBlog, allBlog } as HomeLoaderResponse;
+    return data;
   } catch (err) {
     if (err instanceof AxiosError) {
       throw data(err.response?.data.message || err.message, {
@@ -46,4 +37,4 @@ const homeLoader: LoaderFunction = async () => {
   }
 };
 
-export default homeLoader;
+export default userBlogLoader;

@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 /**
  * Custom modules
@@ -23,7 +23,7 @@ export const useLogout = () => {
           Authorization: `Bearer ${accessToken}`,
         },
         withCredentials: true,
-      }
+      },
     );
 
     if (response.status >= 400) return;
@@ -31,7 +31,7 @@ export const useLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
 
-    if (location.pathname == '/') {
+    if (location.pathname === '/') {
       window.location.reload();
       return;
     }

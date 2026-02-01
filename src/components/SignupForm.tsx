@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { Link, useFetcher, useNavigate } from 'react-router';
+import { Link, useFetcher, useNavigate } from 'react-router-dom';
 import { email, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -102,7 +102,7 @@ export const SignupForm = ({
 
     if (!signupResponse.err) return;
 
-    if (signupResponse.err.code == 'AuthorizationError') {
+    if (signupResponse.err.code === 'AuthorizationError') {
       const authorizationError = signupResponse.err as ErrorResponse;
 
       toast.error(authorizationError.message, {
@@ -110,7 +110,7 @@ export const SignupForm = ({
       });
     }
 
-    if (signupResponse.err.code == 'ValidationError') {
+    if (signupResponse.err.code === 'ValidationError') {
       const validationErrors = signupResponse.err as ValidationError;
 
       Object.entries(validationErrors.errors).forEach((value) => {
@@ -123,7 +123,7 @@ export const SignupForm = ({
             type: 'custom',
             message: validationError.msg,
           },
-          { shouldFocus: true }
+          { shouldFocus: true },
         );
       });
     }

@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 /**
  * Components
@@ -72,7 +72,7 @@ export const UserMenu = () => {
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            {user.role == 'admin' && (
+            {user.role === 'admin' && (
               <DropdownMenuItem asChild>
                 <Link
                   to='/admin/dashboard'

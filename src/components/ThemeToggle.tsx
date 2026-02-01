@@ -37,15 +37,15 @@ export function ThemeToggle() {
       <DropdownMenuContent align='end'>
         <DropdownMenuItem onClick={() => setTheme('light')}>
           Light
-          {theme == 'light' && <Check className='ms-auto' />}
+          {theme === 'light' && <Check className='ms-auto' />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
           Dark
-          {theme == 'dark' && <Check className='ms-auto' />}
+          {theme === 'dark' && <Check className='ms-auto' />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
           System
-          {theme == 'system' && <Check className='ms-auto' />}
+          {theme === 'system' && <Check className='ms-auto' />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

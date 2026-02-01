@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { useNavigation } from 'react-router';
+import { useNavigation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
 import { cn } from '@/lib/utils';
@@ -23,7 +23,7 @@ const fadeInOut = {
 export const Loading = ({ className }: React.ComponentProps<'div'>) => {
   const navigation = useNavigation();
 
-  const isLoading = navigation.state == 'loading';
+  const isLoading = navigation.state === 'loading';
 
   return (
     <AnimatePresence>
@@ -32,7 +32,7 @@ export const Loading = ({ className }: React.ComponentProps<'div'>) => {
           {...fadeInOut}
           className={cn(
             'fixed left-1/2 -translate-x-1/2 top-[84px] p-2 bg-muted rounded-full shadow-lg',
-            className
+            className,
           )}
         >
           <LoaderCircle

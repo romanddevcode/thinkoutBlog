@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -63,16 +63,16 @@ export const BlogCard: React.FC<BlogCardProps> = ({
     <Card
       className={cn(
         'relative group pt-2 h-full @container',
-        size == 'default' && 'flex flex-col-reverse justify-end',
-        size == 'sm' && 'py-2 grid grid-cols-[1fr_1.15fr] gap-0 items-center',
-        className
+        size === 'default' && 'flex flex-col-reverse justify-end',
+        size === 'sm' && 'py-2 grid grid-cols-[1fr_1.15fr] gap-0 items-center',
+        className,
       )}
       {...props}
     >
       <CardHeader
         className={cn(
           'gap-2',
-          size == 'sm' && 'content-center order-1 ps-4 py-3'
+          size === 'sm' && 'content-center order-1 ps-4 py-3',
         )}
       >
         <div className='flex items-center gap-2 text-muted-foreground text-sm font-medium'>
@@ -101,7 +101,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
           <CardTitle
             className={cn(
               'underline-offset-4 hover:underline line-clamp-2',
-              size == 'default' && 'text-xl @md:text-2xl'
+              size === 'default' && 'text-xl @md:text-2xl',
             )}
           >
             {title}
@@ -111,7 +111,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({
         <CardDescription
           className={cn(
             'line-clamp-2 text-balance',
-            size == 'sm' && '@max-2xs:hidden'
+            size === 'sm' && '@max-2xs:hidden',
           )}
         >
           {editor.getText()}

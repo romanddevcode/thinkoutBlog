@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
 /**
@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
  * Components
  */
 import { BlogCard } from '@/components/BlogCard';
+import { Button } from '@/components/ui/button';
 
 /**
  * Types
@@ -42,11 +43,11 @@ const itemVariant: Variants = {
   },
 };
 
-export const RecentBlogs = ({
+export const AllBlogs = ({
   className,
   ...props
 }: React.ComponentProps<'section'>) => {
-  const { recentBlog } = useLoaderData<HomeLoaderResponse>();
+  const { allBlog } = useLoaderData<HomeLoaderResponse>();
 
   return (
     <section
@@ -65,11 +66,11 @@ export const RecentBlogs = ({
             },
           }}
         >
-          Recent blogs
+          All blogs
         </motion.h2>
 
         <motion.ul
-          className='grid gap-4 lg:grid-cols-2 lg:grid-rows-3'
+          className='grid gap-4 lg:grid-cols-2 xl:grid-cols-3'
           initial='from'
           whileInView='to'
           viewport={{ once: true }}
@@ -78,11 +79,10 @@ export const RecentBlogs = ({
           {/**
            * Remove ? from map later
            */}
-          {recentBlog?.blogs.map(
-            ({ slug, banner, title, content, author, publishedAt }, index) => (
+          {allBlog?.blogs.map(
+            ({ slug, banner, title, content, author, publishedAt }) => (
               <motion.li
                 key={slug}
-                className={cn(index === 0 && 'lg:row-span-3')}
                 variants={itemVariant}
               >
                 <BlogCard
@@ -94,12 +94,35 @@ export const RecentBlogs = ({
                   slug={slug}
                   authorName={`${author.firstName} ${author.lastName}`}
                   publishedAt={publishedAt}
-                  size={index > 0 ? 'sm' : 'default'}
                 />
               </motion.li>
             ),
           )}
         </motion.ul>
+
+        <motion.div
+          className='mt-8 flex justify-center md:mt-10'
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: {
+              duration: 0.5,
+              ease: 'backInOut',
+            },
+          }}
+        >
+          <Button
+            size='lg'
+            asChild
+          >
+            <Link
+              to='/blogs'
+              viewTransition
+            >
+              See all blogs
+            </Link>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

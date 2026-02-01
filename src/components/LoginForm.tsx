@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { Link, useFetcher, useNavigate } from 'react-router';
+import { Link, useFetcher, useNavigate } from 'react-router-dom';
 import { email, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -96,7 +96,7 @@ export const LoginForm = ({
 
     if (!loginResponse.err) return;
 
-    if (loginResponse.err.code == 'ValidationError') {
+    if (loginResponse.err.code === 'ValidationError') {
       const validationErrors = loginResponse.err as ValidationError;
 
       Object.entries(validationErrors.errors).forEach((value) => {
@@ -109,7 +109,7 @@ export const LoginForm = ({
             type: 'custom',
             message: validationError.msg,
           },
-          { shouldFocus: true }
+          { shouldFocus: true },
         );
       });
     }

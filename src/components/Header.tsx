@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 /**
@@ -40,7 +40,7 @@ export const Header = ({
     <header
       className={cn(
         'border-b fixed top-0 left-0 w-full h-16 grid items-center bg-background z-40',
-        className
+        className,
       )}
       {...props}
     >
@@ -50,7 +50,7 @@ export const Header = ({
         <div
           className={cn(
             'grow max-md:absolute max-md:top-16 max-md:left-0 max-md:bg-background max-md:w-full max-md:border-b md:flex md:justify-between md:items-center',
-            !mobileMenuOpen && 'max-md:hidden'
+            !mobileMenuOpen && 'max-md:hidden',
           )}
         >
           <Navbar className='max-md:p-3 md:ms-4' />
