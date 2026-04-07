@@ -16,9 +16,14 @@ import { AxiosError } from 'axios';
 
 const blogDetailLoader: LoaderFunction = async ({ params }) => {
   const slug = params.slug;
+  const accessToken = localStorage.getItem('accessToken');
 
   try {
-    const { data } = await thinkoutblogApi.get(`/blogs/${slug}`);
+    const { data } = await thinkoutblogApi.get(`/blogs/${slug}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     return data;
   } catch (err) {

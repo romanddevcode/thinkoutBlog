@@ -2,7 +2,7 @@ export interface User {
   _id: string;
   username: string;
   email: string;
-  role: "admin" | "user";
+  role: 'admin' | 'user';
   firstName?: string;
   lastName?: string;
   socialLinks?: {
@@ -30,8 +30,9 @@ export interface Blog {
   author: User;
   viewsCount: number;
   likesCount: number;
+  isLikedByCurrentUser: boolean;
   commentsCount: number;
-  status: "draft" | "published";
+  status: 'draft' | 'published';
   publishedAt: string;
   updatedAt: string;
 }
@@ -59,7 +60,7 @@ export type FieldValidationError = {
   /**
    * Indicates that the error occurred because a field had an invalid value
    */
-  type: "field";
+  type: 'field';
   /**
    * The location within the request where this field is
    */
@@ -79,12 +80,12 @@ export type FieldValidationError = {
 };
 
 export type ErrorCode =
-  | "BadRequest"
-  | "ValidationError"
-  | "AuthenticationError"
-  | "AuthorizationError"
-  | "NotFound"
-  | "ServerError";
+  | 'BadRequest'
+  | 'ValidationError'
+  | 'AuthenticationError'
+  | 'AuthorizationError'
+  | 'NotFound'
+  | 'ServerError';
 
 export type ValidationError = {
   code: ErrorCode;
@@ -104,7 +105,7 @@ export interface ActionResponse<T = unknown> {
 
 export interface AuthResponse {
   accessToken: string;
-  user: Pick<User, "username" | "email" | "role">;
+  user: Pick<User, 'username' | 'email' | 'role'>;
 }
 
 export interface BlogCreateResponse {

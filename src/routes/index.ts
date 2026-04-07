@@ -30,6 +30,8 @@ import blogEditAction from '@/routes/actions/admin/blogEditAction';
 import blogsAction from '@/routes/actions/admin/blogsAction';
 import allUserAction from '@/routes/actions/admin/allUsersAction';
 import blogCreateAction from '@/routes/actions/admin/blogCreateAction';
+import likeBlog from '@/routes/actions/user/likeBlog';
+import addComment from '@/routes/actions/user/addComment';
 
 /**
  * Loaders
@@ -77,6 +79,14 @@ const router = createBrowserRouter([
         path: 'blogs/:slug',
         Component: BlogDetail,
         loader: blogDetailLoader,
+      },
+      {
+        path: 'likes/:blogId',
+        action: likeBlog,
+      },
+      {
+        path: 'comments/:blogId',
+        action: addComment,
       },
     ],
   },

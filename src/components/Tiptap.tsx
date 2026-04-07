@@ -31,7 +31,7 @@ const extensions = [
     },
   }),
   Placeholder.configure({
-    placeholder: 'Blog content goes here',
+    placeholder: 'Content goes here',
   }),
 ];
 

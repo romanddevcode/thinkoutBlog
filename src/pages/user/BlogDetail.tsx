@@ -1,7 +1,7 @@
 /**
  * Node modules
  */
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useFetcher, useLoaderData, useNavigate } from 'react-router-dom';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { useCallback, useMemo } from 'react';
 import StarterKit from '@tiptap/starter-kit';
@@ -25,7 +25,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { Textarea } from '@/components/ui/textarea';
 import { Page } from '@/components/Page';
+import { CommentCreate } from './CommentCreate';
+import { CommentCard } from '@/components/CommentCard';
 import Avatar from 'react-avatar';
 
 /**
@@ -128,6 +131,8 @@ export const BlogDetail = () => {
   const navigate = useNavigate();
 
   const { blog } = useLoaderData() as { blog: Blog };
+  console.log(blog);
+  const fetcher = useFetcher();
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -187,8 +192,20 @@ export const BlogDetail = () => {
         <Separator />
 
         <div className='flex items-center gap-2 my-2'>
-          <Button variant='ghost'>
-            <ThumbsUpIcon />
+          <Button
+            variant='ghost'
+            onClick={() =>
+              fetcher.submit(null, {
+                method: blog.isLikedByCurrentUser ? 'delete' : 'post',
+                action: `/likes/${blog._id}`,
+              })
+            }
+          >
+            {blog.isLikedByCurrentUser ? (
+              <ThumbsUpIcon fill='white' />
+            ) : (
+              <ThumbsUpIcon />
+            )}
 
             {blog.likesCount}
           </Button>
@@ -228,6 +245,24 @@ export const BlogDetail = () => {
         </div>
 
         <EditorContent editor={editor} />
+
+        <Separator />
+
+        <h1 className='text-4xl leading-tight font-semibold mt-5'>
+          Comments section
+        </h1>
+        <h3 className=' leading-tight font-semibold my-3'>
+          Write your thoughts down below.
+        </h3>
+        <div>
+          <CommentCreate />
+        </div>
+
+        <Separator />
+
+        {/* <div>
+            {blog.commentsCount ? (blog.comment.ma)}
+        </div> */}
       </article>
     </Page>
   );
